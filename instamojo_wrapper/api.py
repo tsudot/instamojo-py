@@ -8,13 +8,11 @@ except ImportError:
 
 class Instamojo(object):
     app_id = None
-    auth_token = None
     endpoint = None
 
-    def __init__(self, api_key, auth_token=None,
-                 endpoint='https://www.instamojo.com/api/1.1/'):
-        self.api_key = api_key
-        self.auth_token = auth_token
+    def __init__(self, access_token,
+                 endpoint='https://api.instamojo.com/v2/'):
+        self.access_token = access_token
         self.endpoint = endpoint
 
     def debug(self):
@@ -169,11 +167,7 @@ class Instamojo(object):
 
     def _api_call(self, method, path, **kwargs):
         # Header: App-Id
-        headers = {'X-Api-Key': self.api_key}
-
-        # If available, add the Auth-token to header
-        if self.auth_token:
-            headers.update({'X-Auth-Token': self.auth_token})
+        headers = {"Authorization": "Bearer {}".format(self.access_token)}
 
         # Build the URL for API call
         api_path = self.endpoint + path
