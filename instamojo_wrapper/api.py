@@ -33,6 +33,12 @@ class Instamojo(object):
             path += '?' + query_string
         return path
 
+    def user_contact(self):
+        path = self.get_path({}, 'user-contact/')
+
+        response = self._api_call(method='get', path=path)
+        return response
+
     def links_list(
             self,
             limit=None,
